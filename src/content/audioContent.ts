@@ -1,0 +1,73 @@
+import type { AudioEventDef, AudioPaletteDef } from './types';
+
+export const audioStrings: Record<string, string> = {
+  'cap.gunshot': '총성',
+  'cap.gunshot.suppressed': '소음 총성',
+  'cap.explosion': '폭발음',
+  'cap.footsteps': '발소리',
+  'cap.door': '문 소리',
+  'cap.impact': '탄착음',
+  'cap.alert': '적 경계 신호',
+  'cap.reload': '장전음',
+  'cap.machine': '기계 굉음',
+  'cap.hit': '피격',
+  'cap.heal': '치료',
+  'cap.dir.n': '북쪽',
+  'cap.dir.ne': '북동쪽',
+  'cap.dir.e': '동쪽',
+  'cap.dir.se': '남동쪽',
+  'cap.dir.s': '남쪽',
+  'cap.dir.sw': '남서쪽',
+  'cap.dir.w': '서쪽',
+  'cap.dir.nw': '북서쪽',
+  'cap.near': '가까이',
+};
+
+const W = (id: string, captionKey?: string): AudioEventDef => ({ id, bus: 'Weapons', variants: 3, ...(captionKey ? { captionKey } : {}) });
+
+/** Audio events (procedurally synthesized). Every repeated sound has ≥3 variants with last-repeat avoidance. */
+export const AUDIO_EVENTS: AudioEventDef[] = [
+  ...['p9', 'h45', 'sm9', 'sm45', 'c556', 'ar556', 'ar762', 'sgp', 'sga', 'dmr', 'bolt', 'lmg'].map((k) => W(`gun.${k}`, 'cap.gunshot')),
+  W('gun.suppressed', 'cap.gunshot.suppressed'),
+  W('gun.dry'),
+  { id: 'reload.magOut', bus: 'Weapons', variants: 3, captionKey: 'cap.reload' },
+  { id: 'reload.magIn', bus: 'Weapons', variants: 3 },
+  { id: 'reload.chamber', bus: 'Weapons', variants: 3 },
+  { id: 'reload.shell', bus: 'Weapons', variants: 3 },
+  { id: 'reload.pump', bus: 'Weapons', variants: 3 },
+  ...['concrete', 'wood', 'metal', 'glass', 'dirt', 'water', 'flesh', 'vegetation'].map((m) => ({ id: `impact.${m}`, bus: 'Impacts' as const, variants: 3, captionKey: 'cap.impact' })),
+  { id: 'explosion.frag', bus: 'Impacts', variants: 3, captionKey: 'cap.explosion' },
+  { id: 'explosion.flash', bus: 'Impacts', variants: 3, captionKey: 'cap.explosion' },
+  { id: 'explosion.smoke', bus: 'Impacts', variants: 3 },
+  ...['grass', 'dirt', 'mud', 'water', 'concrete', 'wood', 'gravel', 'metal', 'snow', 'foliage'].map((m) => ({ id: `step.${m}`, bus: 'Footsteps' as const, variants: 3, captionKey: 'cap.footsteps' })),
+  { id: 'door.open', bus: 'Impacts', variants: 3, captionKey: 'cap.door' },
+  { id: 'door.close', bus: 'Impacts', variants: 3, captionKey: 'cap.door' },
+  { id: 'ui.click', bus: 'UI', variants: 3 },
+  { id: 'ui.confirm', bus: 'UI', variants: 3 },
+  { id: 'ui.error', bus: 'UI', variants: 3 },
+  { id: 'ui.coin', bus: 'UI', variants: 3 },
+  { id: 'ui.quest', bus: 'UI', variants: 3 },
+  { id: 'ui.search', bus: 'UI', variants: 3 },
+  { id: 'ui.pickup', bus: 'UI', variants: 3 },
+  { id: 'voice.alert.coo', bus: 'Voice', variants: 3, captionKey: 'cap.alert' },
+  { id: 'voice.alert.caw', bus: 'Voice', variants: 3, captionKey: 'cap.alert' },
+  { id: 'voice.alert.hoot', bus: 'Voice', variants: 3, captionKey: 'cap.alert' },
+  { id: 'voice.hurt', bus: 'Voice', variants: 3, captionKey: 'cap.hit' },
+  { id: 'heal.bandage', bus: 'UI', variants: 3, captionKey: 'cap.heal' },
+  { id: 'melee.swing', bus: 'Weapons', variants: 3 },
+  { id: 'machine.pulse', bus: 'Ambience', variants: 3, captionKey: 'cap.machine' },
+  { id: 'amb.wind', bus: 'Ambience', variants: 1 },
+  { id: 'amb.rain', bus: 'Ambience', variants: 1 },
+  { id: 'amb.storm', bus: 'Ambience', variants: 1 },
+  { id: 'amb.shelter', bus: 'Ambience', variants: 1 },
+  { id: 'amb.night', bus: 'Ambience', variants: 1 },
+  { id: 'music.base', bus: 'Music', variants: 1 },
+  { id: 'music.title', bus: 'Music', variants: 1 },
+  { id: 'music.raid', bus: 'Music', variants: 1 },
+];
+
+export const AUDIO_PALETTES: AudioPaletteDef[] = [
+  { id: 'shelter', ambience: ['amb.shelter'], music: 'music.base' },
+  { id: 'wind', ambience: ['amb.wind'], music: 'music.raid' },
+  { id: 'forest', ambience: ['amb.wind'], music: 'music.raid' },
+];

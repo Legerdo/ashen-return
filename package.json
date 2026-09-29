@@ -1,0 +1,33 @@
+{
+  "name": "ashen-return-quarantine-zone",
+  "private": true,
+  "version": "1.0.0",
+  "description": "잿빛 귀환: 격리구역 — TypeScript 2D 픽셀아트 탈출형 슈터 (Chapter 1)",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "build": "vite build",
+    "build:e2e": "vite build --mode e2e --outDir dist-e2e",
+    "preview": "vite preview --port 4173 --strictPort",
+    "serve:static": "node scripts/static-server.mjs dist 4180",
+    "pages:prepare": "npm run build && node scripts/stage-pages.mjs",
+    "verify": "node scripts/verify.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.0",
+    "fake-indexeddb": "6.2.5",
+    "typescript": "7.0.2",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
+  },
+  "dependencies": {
+    "phaser": "4.2.1"
+  }
+}
